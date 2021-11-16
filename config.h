@@ -8,7 +8,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
 	"monospace:size=18",
-	"-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"  
+	"JetBrains Mono Nerd Font:size=18"
 	};
 static const char dmenufont[]       = "monospace:size=18";
 static const char col_gray1[]       = "#222222";
@@ -19,6 +19,7 @@ static const char col_cyan[]        = "#005577";
 static const char col_black[]       = "#000000";
 static const char col_red[]         = "#ff0000";
 static const char col_yellow[]      = "#ffff00";
+static const char col_green[]      = "#00ff00";
 static const char col_white[]       = "#ffffff";
 static const char col1[]            = "#ffffff";
 static const char col2[]            = "#ffffff";
@@ -27,6 +28,7 @@ static const char col4[]            = "#ffffff";
 static const char col5[]            = "#ffffff";
 static const char col6[]            = "#ffffff";
 
+enum { SchemeNorm, SchemeSel, SchemeWarn , SchemeUrgent, SchemeRed ,SchemeGreen} ;
 
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
@@ -34,10 +36,10 @@ static const char *colors[][3]      = {
 	[SchemeSel]  =	 { col_gray4, col_cyan,   col_cyan },
 	[SchemeWarn] =	 { col_black, col_yellow, col_red },
 	[SchemeUrgent]=	 { col_white, col_red,    col_red },
+	[SchemeRed] =    { col_red,col_gray1, col_gray2}, /*red*/
+	[SchemeGreen] =  { col_green,col_gray1, col_gray2}, /*green*/
 };
 
-//enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
-//       SchemeCol5, SchemeCol6, SchemeSel }; /* color schemes */
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
