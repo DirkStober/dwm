@@ -73,7 +73,7 @@
 
 /* enums */
 enum { CurNormal, CurHand, CurResize, CurMove, CurLast }; /* cursor */
-//enum { SchemeNorm, SchemeSel, SchemeWarn, SchemeUrgent }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeWarn, SchemeUrgent }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -817,7 +817,7 @@ drawbar(Monitor *m)
 					if ((unsigned int)*ts > LENGTH(colors)) { ts++; continue ; }
 					ctmp = *ts;
 					*ts = '\0';
-					drw_text(drw, x + tx, 0, TTEXTW(stp) -tx, bh, 0, stp, 0);
+					drw_text(drw, x, 0, TTEXTW(stp), bh, 0, stp, 0);
 					tx += TEXTW(tp) -lrpad;
 					if (ctmp == '\0') { break; }
 					drw_setscheme(drw, scheme[(unsigned int)(ctmp-1)]);
