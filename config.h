@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include "X11/XF86keysym.h"
 
 /* appearance */
 static const unsigned int borderpx  = 0;        /* border pixel of windows */
@@ -7,8 +8,8 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
-	"monospace:size=18",
-	"-wuncon-siji-medium-r-normal--10-100-75-75-c-80-iso10646-1"  
+	"monospace:size=16",
+	"JetBrains Mono Nerd Font:size=16"  
 	};
 static const char dmenufont[]       = "monospace:size=18";
 static const char col_gray1[]       = "#222222";
@@ -16,12 +17,12 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
-static const char col1[]            = "#ffffff";
-static const char col2[]            = "#ffffff";
-static const char col3[]            = "#ffffff";
-static const char col4[]            = "#ffffff";
-static const char col5[]            = "#ffffff";
-static const char col6[]            = "#ffffff";
+static const char col_red[]         = "#ff0000";
+static const char col_green[]      = "#00ff00";
+static const char col_blue[]       = "#0000ff";
+static const char col_yellow[]      = "#FFFF00";
+static const char col_white[]       = "#ffffff";
+static const char aurora_green[]    = "#6adc99";
 
 enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
        SchemeCol5, SchemeCol6, SchemeSel }; /* color schemes */
@@ -29,12 +30,12 @@ enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm]  = { col_gray3, col_gray1, col_gray2 },
-	[SchemeCol1]  = { col1,      col_gray1, col_gray2 },
-	[SchemeCol2]  = { col2,      col_gray1, col_gray2 },
-	[SchemeCol3]  = { col3,      col_gray1, col_gray2 },
-	[SchemeCol4]  = { col4,      col_gray1, col_gray2 },
-	[SchemeCol5]  = { col5,      col_gray1, col_gray2 },
-	[SchemeCol6]  = { col6,      col_gray1, col_gray2 },
+	[SchemeCol1]  = { col_red,      col_gray1, col_gray2 },
+	[SchemeCol2]  = { col_green,      col_gray1, col_gray2 },
+	[SchemeCol3]  = { col_blue,      col_gray1, col_gray2 },
+	[SchemeCol4]  = { col_white,      col_gray1, col_gray2 },
+	[SchemeCol5]  = { col_yellow ,      col_gray1, col_gray2 },
+	[SchemeCol6]  = { aurora_green,col_gray1, col_gray2 },
 	[SchemeSel]   = { col_gray4, col_cyan,  col_cyan  },
 };
 
@@ -49,6 +50,7 @@ static const Rule rules[] = {
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
 	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
 	{ "Alacritty",NULL,     NULL,           0,         0,          1,           0,        -1 },
+	{ "Alacritty","MTerm",    NULL,		0,     1,           1,         0,        -1 },
 	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 /* layout(s) */
@@ -79,7 +81,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
 static const char *webcmd[]  = { "firefox", NULL };
-static const char *emailcmd[]  = { "thunderbird", NULL };
+static const char *emailcmd[]  = { "alacritty", "-e", "neomutt", NULL };
 static const char *xcompmgrcmd[] = {"compmgr",NULL};
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -87,6 +89,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,	              	XK_w, 	   spawn,          {.v = webcmd } },
 	{ MODKEY,	              	XK_e, 	   spawn,          {.v = emailcmd} },
+	{ MODKEY,			XK_q,		spawn,	   SHCMD("/home/dirk/ncurses_workspace/control_menu/spwncmd.sh")},
+	{ MODKEY,			XK_minus,   spawn,	 SHCMD("pamixer --allow-boost -d 5; pkill -45 dwmblocks")},
+	{ MODKEY,			XK_equal,	spawn,	 SHCMD("pamixer --allow-boost -i 5; pkill -45 dwmblocks")},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -123,6 +128,11 @@ static Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+// Special keys lenovo laptop
+	{ 0,				XF86XK_AudioMute,		spawn,		SHCMD("pamixer -t 0; pkill -45 dwmblocks")},
+	{ 0,				XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer --allow-boost -d 5; pkill -45 dwmblocks")},
+	{ 0,				XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pamixer --allow-boost -i 5; pkill -45 dwmblocks")},
+	{ 0,				XF86XK_AudioMicMute,		spawn,		SHCMD("pactl set-source-mute 1 toggle; pkill -45 dwmblocks")},
 };
 
 /* button definitions */
