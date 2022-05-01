@@ -91,7 +91,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_Return, 	spawn,          {.v = termcmd } },
 	{ MODKEY,	        XK_w, 	   	spawn,          {.v = webcmd } },
 	{ MODKEY,	        XK_e, 	   	spawn,          {.v = emailcmd} },
-	{ MODKEY,		XK_q,		spawn,	   	SHCMD("/home/dirk/ncurses_workspace/control_menu/spwncmd.sh")},
 	{ MODKEY,		XK_minus,   spawn,	 SHCMD("pamixer --allow-boost -d 5; pkill -45 dwmblocks")},
 	{ MODKEY,		XK_equal,	spawn,	 SHCMD("pamixer --allow-boost -i 5; pkill -45 dwmblocks")},
 	{ MODKEY,               XK_b,      togglebar,      {0} },
