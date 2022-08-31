@@ -42,17 +42,22 @@ static const char *colors[][3]      = {
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
+#define MATLAB_CONSOLE "dirk@dirk-thinkpad: matlab -nodesktop"
+
 static const Rule rules[] = {
 	/* xprop(1):
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Firefox", NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
-	{ "Brave", NULL,     NULL,          0,    0,          0,          -1,        -1 },
-	{ "Alacritty",NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ "Alacritty","MTerm",    NULL,		0,     1,           1,         0,        -1 },
-	{ NULL,      NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	/* class     instance  title       tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "Firefox", 	NULL,   NULL,       	1 << 8,	0,	0,	-1,	-1 },
+	{ "Brave", 	NULL,	NULL,          	0,	0,	0,	-1,	-1 },
+	{ "MATLAB R2022a - academic use","sun-awt-X11-XFramePeer",NULL,0,	0,	0,	1,	-1},
+	{ "MATLABWindow","MATLABWindow",NULL,	0,	0,	0,	1,	-1},
+	{ NULL,		"Matlab-GLEE",	NULL,	0,	0,	0,	1,	-1},
+	{ "Alacritty",	NULL,  	NULL,           0,	0,	1,	0,	-1 },
+	{ "Alacritty",	"MTerm",NULL,		0,     	1,	1,	0,	-1 },
+	{ NULL,      NULL,     "Event Tester", 	0,      0,	0,	1,	-1 }, /* xev */
 };
 /* layout(s) */
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
@@ -64,6 +69,8 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
@@ -107,6 +114,8 @@ static Key keys[] = {
 	{ MODKEY,               XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,               XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,               XK_m,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY,               XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY,               XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,               XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,     XK_space,  togglefloating, {0} },
 	{ MODKEY,               XK_0,      view,           {.ui = ~0 } },
