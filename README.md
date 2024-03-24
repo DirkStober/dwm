@@ -1,3 +1,10 @@
+# My own dwm Patches:
+1. Swallow
+2. fake fullscreen
+3. rotate stack
+
+
+
 dwm - dynamic window manager
 ============================
 dwm is an extremely fast, small, and dynamic window manager for X.

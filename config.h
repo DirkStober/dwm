@@ -23,21 +23,12 @@ static const char col_blue[]       = "#0000ff";
 static const char col_yellow[]      = "#FFFF00";
 static const char col_white[]       = "#ffffff";
 static const char aurora_green[]    = "#6adc99";
-
-enum { SchemeNorm, SchemeCol1, SchemeCol2, SchemeCol3, SchemeCol4,
-       SchemeCol5, SchemeCol6, SchemeSel }; /* color schemes */
-
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm]  = { col_gray3, col_gray1, col_gray2 },
-	[SchemeCol1]  = { col_red,      col_gray1, col_gray2 },
-	[SchemeCol2]  = { col_green,      col_gray1, col_gray2 },
-	[SchemeCol3]  = { col_blue,      col_gray1, col_gray2 },
-	[SchemeCol4]  = { col_white,      col_gray1, col_gray2 },
-	[SchemeCol5]  = { col_yellow ,      col_gray1, col_gray2 },
-	[SchemeCol6]  = { aurora_green,col_gray1, col_gray2 },
-	[SchemeSel]   = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
+
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
@@ -63,14 +54,13 @@ static const Rule rules[] = {
 static const float mfact     = 0.5; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int lockfullscreen = 0; /* 1 will force focus on the fullscreen window */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
@@ -88,7 +78,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "alacritty", NULL };
-static const char *webcmd[]  = { "brave", NULL };
+static const char *webcmd[]  = { "brave-browser", NULL };
 static const char *emailcmd[]  = { "alacritty", "-e", "neomutt", NULL };
 static const char *xcompmgrcmd[] = {"compmgr",NULL};
 static Key keys[] = {
@@ -100,6 +90,7 @@ static Key keys[] = {
 	{ MODKEY,	        XK_e, 	   	spawn,          {.v = emailcmd} },
 	{ MODKEY,		XK_minus,   spawn,	 SHCMD("pamixer --allow-boost -d 5; pkill -45 dwmblocks")},
 	{ MODKEY,		XK_equal,	spawn,	 SHCMD("pamixer --allow-boost -i 5; pkill -45 dwmblocks")},
+	{ MODKEY,		XK_s,	spawn,	 SHCMD("slock")},
 	{ MODKEY,               XK_b,      togglebar,      {0} },
 	{ MODKEY,               XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,               XK_k,      focusstack,     {.i = -1 } },
@@ -125,9 +116,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,     XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,     XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY|ShiftMask,     XK_o, spawn,         	{.v = xcompmgrcmd} },
-	{ MODKEY,             	XK_bracketleft,	setborderpx,{.i = -1 } },
-	{ MODKEY,             	XK_bracketright, setborderpx,    {.i = +1 } },
-	{ MODKEY,             	XK_backslash, 	setborderpx,    {.i = 0 } },
 	TAGKEYS(                XK_1,                      0)
 	TAGKEYS(                XK_2,                      1)
 	TAGKEYS(                XK_3,                      2)
