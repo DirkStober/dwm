@@ -85,7 +85,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY|ShiftMask,	XK_p,		spawn,          {.v = dmenucmd } },
 	{ MODKEY,		XK_p,		spawn,		SHCMD("passmenu")},
-	{ MODKEY|ShiftMask,     XK_Return, 	spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,     XK_t, 	spawn,          {.v = termcmd } },
 	{ MODKEY,	        XK_w, 	   	spawn,          {.v = webcmd } },
 	{ MODKEY,	        XK_e, 	   	spawn,          {.v = emailcmd} },
 	{ MODKEY,		XK_minus,   spawn,	 SHCMD("pamixer --allow-boost -d 5; pkill -45 dwmblocks")},
@@ -105,8 +105,6 @@ static Key keys[] = {
 	{ MODKEY,               XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,               XK_f,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY,               XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,               XK_u,      setlayout,      {.v = &layouts[3]} },
-	{ MODKEY,               XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,               XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,     XK_space,  togglefloating, {0} },
 	{ MODKEY,               XK_0,      view,           {.ui = ~0 } },
